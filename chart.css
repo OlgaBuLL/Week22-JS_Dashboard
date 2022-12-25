@@ -1,0 +1,91 @@
+.body {
+  background: rgb(25, 25, 40);
+}
+
+h1 {
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+}
+h6 {
+  color: rgb(148, 146, 146);
+}
+.dashboard-date-ru,
+.dashboard-date-en,
+.dashboard-date-sr,
+.dashboard-date-ar-ma {
+  color: rgb(191, 37, 91);
+  text-align: right;
+  font-weight: light;
+}
+
+/* .row { */
+.mb-6 {
+  margin-top: 2rem;
+}
+.demo-wrapper {
+  max-width: 70%;
+  margin: 3rem auto;
+}
+.btn1,
+.btn2 {
+  background: rgb(25, 25, 40);
+  color: #fff;
+  border: 2px solid rgb(255, 255, 255);
+  transition: all 0.3s;
+}
+.btn1:hover,
+.btn2:hover {
+  background: rgb(255, 255, 255, 0.2);
+}
+.square {
+  max-width: 30px;
+  height: 30px;
+  margin: 2.5rem;
+}
+.sq1 {
+  background: salmon;
+}
+.sq2 {
+  background: violet;
+}
+.sq3 {
+  background: purple;
+}
+.sq4 {
+  max-width: 30px;
+  height: 30px;
+  margin: 2.5rem;
+  background: lightblue;
+}
+
+#myChart1,
+#myChart2,
+#myChart3,
+#myChart4,
+#myChart5,
+#myChart6,
+#myChart7 {
+  /* max-width: 700px; */
+  margin: 0 auto;
+  margin-top: 4rem;
+}
+
+.col {
+  transition: transform 0.2s ease-out;
+}
+
+.col.over {
+  border: 2px dashed #000;
+}
+
+.col.moving {
+  opacity: 0.25;
+  transform: scale(0.8);
+}
+
+.col .count {
+  font-weight: bold;
+  padding-top: 15px;
+  text-shadow: #fff 0 1px;
+}
