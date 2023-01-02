@@ -380,7 +380,7 @@ const chart7 = new Chart(ctx7, {
   options: {},
 });
 
-// --------- библиотека interact.js --------------
+// --------- библиотека INTERACT.js --------------
 const interact = require("interactjs");
 
 // блок для диаграммы
