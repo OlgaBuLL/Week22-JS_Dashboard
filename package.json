@@ -13,6 +13,7 @@
     "animejs": "3.2.1",
     "bootstrap": "5.2.3",
     "gm": "1.25.0",
+    "interactjs": "^1.10.17",
     "moment": "2.29.4",
     "sharp": "0.31.3"
   }

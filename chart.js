@@ -61,76 +61,6 @@ btn2.addEventListener("click", function () {
   });
 });
 
-// ----------- BOOTSTRAP DRAG AND DROP------------
-
-(function () {
-  let row = document.querySelectorAll(".row");
-  let cols = document.querySelectorAll(".col");
-  this.handleDragStart = function (e) {
-    e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("chart", this.innerHTML);
-
-    dragSrcEl_ = this;
-
-    // this/e.target is the source node.
-    this.classList.add("moving");
-  };
-
-  this.handleDragOver = function (e) {
-    if (e.preventDefault) {
-      e.preventDefault(); // Allows us to drop.
-    }
-
-    e.dataTransfer.dropEffect = "move";
-
-    return false;
-  };
-  this.handleDragEnter = function (e) {
-    this.classList.add("over");
-  };
-
-  this.handleDragLeave = function (e) {
-    // this/e.target is previous target element.
-    this.classList.remove("over");
-  };
-
-  this.handleDrop = function (e) {
-    // this/e.target is current target element.
-
-    if (e.stopPropagation) {
-      e.stopPropagation(); // stops the browser from redirecting.
-    }
-
-    //Don't do anything if we're dropping on the same column we're dragging.
-    if (dragSrcEl_ != this) {
-      console.log(dragSrcEl_.innerHTML);
-      dragSrcEl_.innerHTML = this.innerHTML;
-      console.log(dragSrcEl_.innerHTML);
-      this.innerHTML = e.dataTransfer.getData("chart");
-    }
-
-    return false;
-  };
-
-  this.handleDragEnd = function (e) {
-    // this/e.target is the source node.
-    [].forEach.call(cols, function (col) {
-      col.classList.remove("over");
-      col.classList.remove("moving");
-    });
-  };
-
-  [].forEach.call(cols, function (col) {
-    col.setAttribute("draggable", "true"); // Enable columns to be draggable.
-    col.addEventListener("dragstart", this.handleDragStart, false);
-    col.addEventListener("dragenter", this.handleDragEnter, false);
-    col.addEventListener("dragover", this.handleDragOver, false);
-    col.addEventListener("dragleave", this.handleDragLeave, false);
-    col.addEventListener("drop", this.handleDrop, false);
-    col.addEventListener("dragend", this.handleDragEnd, false);
-  });
-})();
-
 // ---------------- ПЕРВЫЙ ГРАФИК ---------------
 
 const ctx = document.getElementById("myChart1").getContext("2d");
@@ -186,15 +116,6 @@ const chart2 = new Chart(ctx2, {
     datasets: [
       {
         label: "School supplies",
-        // backgroundColor: [
-        //   "rgb(135, 206, 250)",
-        //   "rgb(238, 130, 238)",
-        //   "rgb(210, 180, 140)",
-        //   "rgb(107, 142, 35)",
-        //   "rgb(211, 211, 211)",
-        //   "orangered",
-        //   "rgb(72, 61, 139)",
-        // ],
         // tension: 0.5,
         borderColor: "rgb(106, 90, 205)",
         // hoverBorderColor: "orangered",
@@ -241,7 +162,6 @@ const chart3 = new Chart(ctx3, {
           "orangered",
           "rgb(72, 61, 139)",
         ],
-        // borderColor: "rgb(255, 99, 132)",
         data: [62, 30, 93, 24, 30, 16, 31],
       },
     ],
@@ -348,7 +268,6 @@ const mixedChart = new Chart(ctx5, {
 
 const ctx6 = document.getElementById("myChart6").getContext("2d");
 const chart6 = new Chart(ctx6, {
-  // The type of chart we want to create
   type: "radar",
   data: {
     labels: [
@@ -392,7 +311,6 @@ const chart6 = new Chart(ctx6, {
 
 const ctx7 = document.getElementById("myChart7").getContext("2d");
 const chart7 = new Chart(ctx7, {
-  // The type of chart we want to create
   type: "bubble",
   data: {
     datasets: [
@@ -461,34 +379,49 @@ const chart7 = new Chart(ctx7, {
   options: {},
 });
 
-// module.exports = {
-//   entry: "./grayscale.js",
-// };
+// --------- библиотека interact.js --------------
+const interact = require("interactjs");
 
-// ----------- SHARP------------
+// блок для диаграммы
+interact(".draggable").draggable({
+  inertia: true,
+  modifiers: [
+    interact.modifiers.restrictRect({
+      restriction: "parent",
+      endOnly: true,
+    }),
+  ],
 
-// const fs = require("fs");
-// const sharp = require("sharp");
-// const convertTograyscale = () => {
-//   sharp("./images/robo.jpg")
-//     .grayscale() // or .greyscale()
-//     .toFile("./processed_images/grayscale_robo.jpg");
-// };
+  autoScroll: true,
 
-// convertTograyscale();
+  listeners: {
+    move: dragMoveListener,
 
-// const sharp = require("sharp");
+    end(event) {
+      let textEl = event.target.querySelector("p");
 
-// const rotateImage = () => {
-//   sharp("./images/robo.jpg")
-//     .rotate(250)
-//     .toFile("./processed_images/rotate_robo.jpg");
-// };
+      textEl &&
+        (textEl.textContent =
+          "moved a distance of " +
+          Math.sqrt(
+            (Math.pow(event.pageX - event.x0, 2) +
+              Math.pow(event.pageY - event.y0, 2)) |
+              0
+          ).toFixed(2) +
+          "px");
+    },
+  },
+});
 
-// rotateImage();
+function dragMoveListener(event) {
+  let target = event.target;
+  let x = (parseFloat(target.getAttribute("data-x")) || 0) + event.dx;
+  let y = (parseFloat(target.getAttribute("data-y")) || 0) + event.dy;
 
-// ----------- GM ------------
-// GraphicsMagick and ImageMagick for node
+  target.style.transform = "translate(" + x + "px, " + y + "px)";
 
-// const fs = require("fs");
-// const gm = require("gm").subClass({ imageMagick: "7+" });
+  target.setAttribute("data-x", x);
+  target.setAttribute("data-y", y);
+}
+
+window.dragMoveListener = dragMoveListener;

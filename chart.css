@@ -20,7 +20,6 @@ h6 {
   font-weight: light;
 }
 
-/* .row { */
 .mb-6 {
   margin-top: 2rem;
 }
@@ -74,19 +73,4 @@ h6 {
 
 .col {
   transition: transform 0.2s ease-out;
-}
-
-.col.over {
-  border: 2px dashed #000;
-}
-
-.col.moving {
-  opacity: 0.25;
-  transform: scale(0.8);
-}
-
-.col .count {
-  font-weight: bold;
-  padding-top: 15px;
-  text-shadow: #fff 0 1px;
 }
